@@ -1,12 +1,12 @@
 
-var usersCtrlFunction = function($scope,usersData) {
-    console.log(usersData);
+var usersCtrlFunction = function($scope,usersData,userService) {
     
-    $scope.users = usersData;
+    $scope.refreshUsers = refreshUsers;
+    $scope.refreshUsers();
     $scope.currentAction = 'Add';
     $scope.editUserIndex = -1;
     
-    $scope.userForm = { username:'',location:''};
+    $scope.userForm = { name:'',location:''};
     
     $scope.editUserFunc = editUser;
     $scope.removeUser = removeUser;
@@ -14,15 +14,20 @@ var usersCtrlFunction = function($scope,usersData) {
     $scope.addUserBtnClicked = addUserBtnClicked;
     
     function addUser(newUserObj) {
-    	if(newUserObj.username && newUserObj.username.length > 0)
+    	if(newUserObj.name && newUserObj.name.length > 0)
     	{
-        	$scope.users.push(newUserObj);
-        }
+        	userService.createUser(newUserObj)
+          .then(function(newUser) {
+            $scope.users.push(newUser);
+          },function(error) {
+            console.log(error);
+          });
+      }
     }
     
     function addUserBtnClicked() {
       $scope.currentAction = 'Add';
-      $scope.userForm = { username:'',location:''};
+      $scope.userForm = { name:'',location:''};
     }
     
     function removeUser(index) {
@@ -46,11 +51,28 @@ var usersCtrlFunction = function($scope,usersData) {
      {
        updateUser($scope.editUserIndex,$scope.userForm);
      }
-     $scope.userForm = { username:'',location:''};
+     $scope.userForm = { name:'',location:''};
     }
+
+    function refreshUsers() {
+      $scope.users = userService.getUsersList();
+      $scope.usersLoading = true;
+      $scope.users.then(getUsersListSuccessCb,getUsersListErrorCb);
+    }
+
+    function getUsersListSuccessCb(data){
+      $scope.users = data;
+      $scope.usersLoading = false;
+    }
+
+    function getUsersListErrorCb(error){
+      $scope.usersLoading = false;
+      console.log(error);
+    }
+
 };
 
-usersCtrlFunction.$inject = ['$scope','usersData'];
+usersCtrlFunction.$inject = ['$scope','usersData','UserService'];
 
 angular.module('myApp.users')
 .controller('UsersCtrl',usersCtrlFunction);

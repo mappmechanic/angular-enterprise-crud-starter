@@ -21,6 +21,12 @@ var usersArray = [
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 var port = process.env.PORT || 8080;        // set our port
 
 // ROUTES FOR OUR API
@@ -46,7 +52,7 @@ userRouter.route('/users')
     		var newUser = user;
     		newUser['id'] = id;
     		usersArray.push(newUser);
-    		res.send({success:true});
+    		res.send(newUser);
     	}else
     	{
     		res.status(500)
