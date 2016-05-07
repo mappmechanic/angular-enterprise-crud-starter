@@ -1,0 +1,15 @@
+{
+  "name": "sample-rest-api",
+  "version": "1.0.0",
+  "description": "Sample REST API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Rahat",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.15.1",
+    "express": "^4.13.4"
+  }
+}
