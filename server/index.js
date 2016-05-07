@@ -7,6 +7,7 @@
 var express    = require('express');        // call express
 var app        = express();                 // define our app using express
 var bodyParser = require('body-parser');
+var _ = require('lodash');
 
 var usersArray = [
 {id:1,name:'User1',location:'Location 1'},
@@ -88,19 +89,15 @@ userRouter.route('/users/:user_id')
     	console.log(req.params.user_id);
     	if(req.params.user_id) {
     		var index = 0;
-	        usersArray.map(function(user){
-	        	if(user.id == req.params.user_id)
-	        	{
-	        		userFound = index;
-	        	}
-	        	index++;
+	        userFoundIndex = _.findIndex(usersArray,function(user){
+	        	return user.id == req.params.user_id;
 	        });
-	        if(userFound)
+	        if(userFoundIndex)
 	        {
 	        	if(req.body.user)
 	        	{
-	        		usersArray[userFound] = req.body.user;
-	        		res.status(200).send(usersArray[index]);
+	        		usersArray[userFoundIndex] = req.body.user;
+	        		res.status(200).send(usersArray[userFoundIndex]);
 	        	}else
 	        	{
 	        		res.status(500).send({error:'Malformed Request Body'});
