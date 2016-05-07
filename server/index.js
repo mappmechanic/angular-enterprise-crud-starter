@@ -8,6 +8,13 @@ var express    = require('express');        // call express
 var app        = express();                 // define our app using express
 var bodyParser = require('body-parser');
 
+var usersArray = [
+{id:1,name:'User1',location:'Location 1'},
+{id:2,name:'User2',location:'Location 2'},
+{id:3,name:'User3',location:'Location 3'},
+{id:4,name:'User4',location:'Location 4'}];
+
+
 // configure app to use bodyParser()
 // this will let us get the data from a POST
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -15,56 +22,104 @@ app.use(bodyParser.json());
 
 var port = process.env.PORT || 8080;        // set our port
 
-
-// This responds with "Hello World" on the homepage
-app.get('/', function (req, res) {
-   console.log("Got a GET request for the homepage");
-   res.send('Hello GET');
-})
-
-
-// This responds a POST request for the homepage
-app.post('/', function (req, res) {
-   console.log("Got a POST request for the homepage");
-   res.send('Hello POST');
-})
-
-// This responds a DELETE request for the /del_user page.
-app.delete('/del_user', function (req, res) {
-   console.log("Got a DELETE request for /del_user");
-   res.send('Hello DELETE');
-})
-
-// This responds a GET request for the /list_user page.
-app.get('/list_user', function (req, res) {
-   console.log("Got a GET request for /list_user");
-   res.send('Page Listing');
-})
-
-// This responds a GET request for abcd, abxcd, ab123cd, and so on
-app.get('/ab*cd', function(req, res) {   
-   console.log("Got a GET request for /ab*cd");
-   res.send('Page Pattern Match');
-})
-
-app.get('/user/:user_id',function(req,res){
-	res.send('Getting User with Id '+req.params.user_id);
-})
-
 // ROUTES FOR OUR API
 // =============================================================================
-var router = express.Router();              // get an instance of the express Router
+var userRouter = express.Router();              // get an instance of the express Router
 
-// test route to make sure everything is working (accessed at GET http://localhost:8080/api)
-router.get('/', function(req, res) {
-    res.json({ message: 'Hello World! welcome to our api!' });   
-});
+userRouter.route('/users')
+
+    // create a user (accessed at POST http://localhost:8080/api/users)
+    /*
+    	{
+			"user": {
+				"name":"NewUser",
+				"location":"NewLocation"
+			}
+    	}
+     */
+    .post(function(req, res) {
+    	var user = req.body.user ? req.body.user : null;
+    	if(user)
+    	{
+    		var id = usersArray.length+1;
+    		var newUser = user;
+    		newUser['id'] = id;
+    		usersArray.push(newUser);
+    		res.send({success:true});
+    	}else
+    	{
+    		res.status(500)
+    		.send({error:'Malformed Request Body'});
+    	}
+    })
+
+    // get all the users (accessed at GET http://localhost:8080/api/users)
+    .get(function(req, res) {
+    	res.status(200).send(usersArray);
+    });
+
+// on routes 
+// ----------------------------------------------------
+userRouter.route('/users/:user_id')
+
+    // get the user with that id (accessed at GET http://localhost:8080/api/users/:user_id)
+    .get(function(req, res) {
+    	var userFound = null;
+    	if(req.params.user_id) {
+	        usersArray.map(function(user){
+	        	if(user.id == req.params.user_id)
+	        	{
+	        		userFound = user;
+	        	}
+	        });
+	        if(userFound)
+	        {
+	        	res.status(200).send(userFound);
+	        }else
+	        {
+	        	res.status(404).send({error:"No User exists."});
+	        }
+        }
+    })
+
+    // update the user with that id (accessed at GET http://localhost:8080/api/user/:user_id)
+    .put(function(req, res) {
+    	var userFound = null;
+    	console.log(req.params.user_id);
+    	if(req.params.user_id) {
+    		var index = 0;
+	        usersArray.map(function(user){
+	        	if(user.id == req.params.user_id)
+	        	{
+	        		userFound = index;
+	        	}
+	        	index++;
+	        });
+	        if(userFound)
+	        {
+	        	if(req.body.user)
+	        	{
+	        		usersArray[userFound] = req.body.user;
+	        		res.status(200).send(usersArray[index]);
+	        	}else
+	        	{
+	        		res.status(500).send({error:'Malformed Request Body'});
+	        	}
+	        	
+	        }else
+	        {
+	        	res.status(404).send({error:"No User exists."});
+	        }
+        }
+    });
+
+
 
 // more routes for our API will happen here
 
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api
-app.use('/api', router);
+app.use('/api', userRouter);
 
 // START THE SERVER
 // =============================================================================
