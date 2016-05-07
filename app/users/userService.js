@@ -32,7 +32,9 @@ var userServiceFunc = function($http,$q) {
   }
 
 
-
+  this.updateUser = function(updatedUser) {
+    return $http.put(baseUrl+'/users/'+updatedUser.id,{"user":updatedUser});
+  }
 
 }
 

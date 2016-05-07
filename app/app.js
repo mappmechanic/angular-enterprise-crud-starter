@@ -4,6 +4,7 @@
 var app = angular.module('myApp', [
   'ngRoute',
   'myApp.home',
+  'myApp.contact',
   'myApp.users',
   'myApp.version'
 ]);

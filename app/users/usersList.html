@@ -38,7 +38,7 @@
     </thead>
     <tbody>
       <tr ng-if="usersLoading">
-      <td colspan="5">LOADING...</td>
+        <td colspan="5">LOADING...</td>
       </tr>
       <tr ng-if="!usersLoading" ng-repeat="user in users track by $index">
         <td>{{ $index+1 }}</td>

@@ -35,7 +35,12 @@ var usersCtrlFunction = function($scope,usersData,userService) {
     }
     
     function updateUser(index,updatedUserObj) {
-        $scope.users[index] = updatedUserObj;
+        userService.updateUser(updatedUserObj)
+          .then(function(response) {
+            $scope.users[index] = updatedUserObj;
+          },function(error) {
+            console.log(error);
+          });   
     }
     
     function editUser(index) {

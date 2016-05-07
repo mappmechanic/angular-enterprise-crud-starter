@@ -1,0 +1,41 @@
+<!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+      <div class="container">
+        <h3>Contact Us</h3>
+
+        Enter Address <input type="text" ng-model="address" ng-keypress="searchAddress()"> 
+      </div>
+    </div>
+
+    <div class="container">
+
+      <div ng-show="errorMsg" class="alert alert-danger">
+        {{errorMsg}}
+      </div>
+
+
+      <div ng-hide="errorMsg" class="row">
+        <div class="col-md-3">
+        Lat
+        </div>
+        <div class="col-md-3">
+        Long
+        </div>
+        <div class="col-md-6">
+        Address
+        </div>
+      </div>
+       <div ng-repeat="address in results" class="row">
+        <div class="col-md-3">
+          {{address.geometry.location.lat}}
+        </div>
+        <div class="col-md-3">
+          {{address.geometry.location.lng}}
+        </div>
+        <div class="col-md-6">
+          {{address.formatted_address}}
+        </div>
+      </div>
+     
+    </div> 
+<!-- TEMPLATE CODE END -->
