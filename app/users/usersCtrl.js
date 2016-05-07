@@ -8,7 +8,7 @@ var usersCtrlFunction = function($scope,usersData) {
     
     $scope.userForm = { username:'',location:''};
     
-    $scope.editUser = editUser;
+    $scope.editUserFunc = editUser;
     $scope.removeUser = removeUser;
     $scope.submitForm = submitForm;
     $scope.addUserBtnClicked = addUserBtnClicked;
