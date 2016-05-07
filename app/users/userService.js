@@ -26,29 +26,9 @@ var userServiceFunc = function($http,$q) {
   }
 
 
-
+  // Simple Method of Providing Promise Returned by $http Call
   this.createUser = function(newUserObject) {
-    var deferred = $q.defer(); 
-    $http.post(baseUrl+'/users',{"user":newUserObject})
-    .then(successCb,errorCb);
-
-    function successCb(response){
-      console.log(response);
-      if(response.status === 200)
-      {
-        deferred.resolve(response.data);
-      }else
-      {
-        deferred.reject({error:'Unkown Error'});
-      }
-    }
-
-    function errorCb(errorResponse){
-      console.log(errorResponse);
-      deferred.reject(errorResponse);
-    }
-
-    return deferred.promise;
+    return $http.post(baseUrl+'/users',{"user":newUserObject});
   }
 
 

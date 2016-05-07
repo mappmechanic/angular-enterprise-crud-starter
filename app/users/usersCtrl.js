@@ -17,8 +17,8 @@ var usersCtrlFunction = function($scope,usersData,userService) {
     	if(newUserObj.name && newUserObj.name.length > 0)
     	{
         	userService.createUser(newUserObj)
-          .then(function(newUser) {
-            $scope.users.push(newUser);
+          .then(function(response) {
+            $scope.users.push(response.data);
           },function(error) {
             console.log(error);
           });
