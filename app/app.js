@@ -5,6 +5,7 @@ var app = angular.module('myApp', [
   'ngRoute',
   'myApp.home',
   'myApp.contact',
+  'myApp.forms',
   'myApp.users',
   'myApp.version'
 ]);
@@ -64,7 +65,11 @@ var navCtrl = function(locationService,$scope){
 			},{
 				display:'Contact Us',
 				path:'contact'
-			}	]
+			},
+			{
+				display:'Forms',
+				path:'forms'
+			}];
 
 		$scope.isActive = function(path){
 			return ((locationService.path().indexOf(path) > -1) ? true : false);
