@@ -7,6 +7,28 @@ Main jumbotron for a primary marketing message or call to action -->
 
     <div class="container">
 
+
+<div style="height:140px;width:140px;border:2px solid;margin:10px;"
+dom-directive hover-color="blue">
+  Dom Element
+</div>
+
+<div style="height:140px;width:140px;border:2px solid;margin:10px;" 
+dom-directive hover-color="orange">
+  Dom Element
+</div>
+
+
+    <ul>
+      <li ng-repeat="user in names">
+        <app-user user-data="user">
+        </app-user>
+      </li>
+    </ul>
+
+  <div style="margin-top:400px">
+  </div>
+
     <div ng-switch="action" style="color:#395075">
     <div ng-switch-when="add">
       <h2>Showing Add Form for Model {{ model }}</h2>

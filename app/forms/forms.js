@@ -1,19 +1,24 @@
 'use strict';
 
-angular.module('myApp.forms', ['ngRoute'])
+angular.module('myApp.forms', ['ngRoute','customDirectives'])
 
-.config(['$routeProvider', function($routeProvider) {
+.config(['$routeProvider','movieProvider', function($routeProvider,movieProvider) {
   $routeProvider.when('/forms/:entity/:id?', {
     templateUrl: 'forms/forms.html',
     controller: 'FormsCtrl'
   });
+  movieProvider.setVersion(' Reloaded');
 }])
 
 .controller('FormsCtrl', 
-	['$scope','$http','reverseFilter','$routeParams',
-  function($scope,$http,reverse,$routeParams) {
+	['$scope','$http','reverseFilter','$routeParams','movie',
+  function($scope,$http,reverse,$routeParams,movie) {
     $scope.master = {};
     console.log($routeParams);
+
+ $scope.movie = movie.getMovieTitle();
+ movie.updateVersion(' Updated');
+ $scope.movie = movie.getMovieTitle();
 
  $scope.model = $routeParams['entity'] ? $routeParams['entity'] : '' ;
  
@@ -153,6 +158,50 @@ app.filter('reverse', function() {
     return out;
   };
 });
+
+
+
+// Provider
+
+app.provider('movie', function () {
+  var version;
+  return {
+    setVersion: function (value) {
+      version = value;
+    },
+    $get: function () {
+      return {
+          getMovieTitle:function(){
+            return 'The Matrix' + version;
+          },
+          updateVersion:function(newVersion){
+            version = newVersion;
+          }
+      }
+    }
+  }
+});
+ 
+
+
+// Decorators
+
+var app = angular.module('myApp.forms');
+ 
+app.value('movieTitle', 'The Matrix');
+ 
+app.config(function ($provide) {
+  $provide.decorator('movieTitle', function ($delegate) {
+    return $delegate + ' - starring Keanu Reeves';
+  });
+});
+
+
+
+
+
+
+
 
 
 
