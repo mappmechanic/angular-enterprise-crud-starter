@@ -1,4 +1,4 @@
-<!-- Main jumbotron for a primary marketing message or call to action -->
+Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
       <div class="container">
         <h3>Forms</h3>
@@ -51,7 +51,7 @@
           </form>
         </div> -->
       
-       <form name="form" class="css-form" novalidate>
+       <!-- <form name="form" class="css-form" novalidate>
           <div>
             Size (integer 0 - 10):
             <input type="number" ng-model="size" name="size"
@@ -68,7 +68,61 @@
             <span ng-show="form.name.$error.username">This username is already taken!</span>
           </div>
 
-        </form>
+          Gender:
+            <input type="radio" name="gender" ng-change="checkEntry()" ng-model="user.gender" value="male" />male
+            <input type="radio" name="gender" ng-change="checkEntry()" ng-model="user.gender" value="female" />female
+            <br />
+
+            <div ng-show="form.gender.$error.onlyFemale" class="alert alert-warning">
+                Only Females have free entry !
+            </div>
+
+        </form> -->
+
+        <div>
+
+  <p>Looping with objects:</p><br>
+  Sort By:
+  <select ng-model="sortBy">
+   <option selected value="name">Name</option>
+   <option value="location">Location</option>
+  </select>
+  Reverse <input type="radio" ng-model="form.reverse" value='true'> True |
+  <input type="radio" ng-model="form.reverse" value='false'> False
+  <br>
+  Limit: <input type="number" ng-model="limit"><br>
+  Search: <input ng-model="searchTxt"><br>
+  <ul>
+    <li ng-repeat="x in names | orderBy:sortBy:form.reverse == 'true' | limitTo:limit | filter:searchTxt">
+      {{ x.name + ', ' + x.location }}
+    </li>
+  </ul>
+  <br><br>
+  <input type="number" ng-model="price">
+
+  <br><br>
+  Price for Product 1 : {{ price | currency: 'INR ' : 3 }} <br><br>
+  <span ng-non-bindable>{{1288323623006 | date:'medium'}}</span>:
+      <span>{{1288323623006 | date:'medium'}}</span><br>
+  <span ng-non-bindable>{{1288323623006 | date:'yyyy-MM-dd HH:mm:ss Z'}}</span>:
+     <span>{{1288323623006 | date:'yyyy-MM-dd HH:mm:ss Z'}}</span><br>
+  <span ng-non-bindable>{{1288323623006 | date:'MM/dd/yyyy @ h:mma'}}</span>:
+     <span>{{'1288323623006' | date:'MM/dd/yyyy @ h:mma'}}</span><br>
+  <span ng-non-bindable>{{1288323623006 | date:"MM/dd/yyyy 'at' h:mma"}}</span>:
+     <span>{{'1288323623006' | date:"MM/dd/yyyy 'at' h:mma"}}</span>
+</div>
+
+<br><br>
+<input type="text" ng-model="original">
+
+Original Word:
+{{original}}
+  |
+Reversed:
+{{original | reverse:true}}
+<br>
+<input type="button" ng-click="checkPalindrome()" value="Check">
+<br><br><br><br><br>
 
     </div> 
-<!-- TEMPLATE CODE END -->
+<!-- TEMPLATE CODE END

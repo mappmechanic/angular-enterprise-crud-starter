@@ -10,21 +10,40 @@ angular.module('myApp.forms', ['ngRoute'])
 }])
 
 .controller('FormsCtrl', 
-	['$scope','$http',function($scope,$http) {
+	['$scope','$http','reverseFilter',function($scope,$http,reverse) {
     $scope.master = {};
+
+    $scope.limit = 3;
+    $scope.names = [
+        {name:'Jani',location:'Norway'},
+        {name:'Hege',location:'Sweden'},
+        {name:'Kai',location:'Denmark'},
+        {name:'User1',location:'Delhi'},
+        {name:'User2',location:'North America'},
+        {name:'User3',location:'South America'}
+    ];
 
   $scope.update = function(user) {
     if($scope.form.$valid) {
 
       if($scope.user.email.indexOf('opusconsulting.com') === -1)
       {
-        debugger;
         $scope.form.uEmail.$setValidity('email',false);
       }else{
         $scope.master = angular.copy(user);
       }
     }
   };
+
+  $scope.checkEntry = function(){
+    if($scope.user.gender !== 'female')
+    {
+      $scope.form.gender.$setValidity('onlyFemale',false);
+    }else
+    {
+      $scope.form.gender.$setValidity('onlyFemale',true);
+    }
+  }
 
   $scope.reset = function(form) {
     if (form) {
@@ -36,6 +55,16 @@ angular.module('myApp.forms', ['ngRoute'])
   };
 
   $scope.reset();
+
+  $scope.checkPalindrome = function() {
+    if($scope.original == reverse($scope.original))
+    {
+      alert('Yes');
+    }else
+    {
+      alert('No');
+    }
+  }
 }]);
 
 var app = angular.module('myApp.forms');
@@ -94,3 +123,27 @@ app.directive('username', function($q, $timeout) {
     }
   };
 });
+
+
+app.filter('reverse', function() {
+  return function(input, uppercase) {
+    input = input || '';
+    var out = "";
+    for (var i = 0; i < input.length; i++) {
+      out = input.charAt(i) + out;
+    }
+    // conditional based on optional argument
+    if (uppercase) {
+      out = out.toUpperCase();
+    }
+    return out;
+  };
+});
+
+
+
+
+
+
+
+
