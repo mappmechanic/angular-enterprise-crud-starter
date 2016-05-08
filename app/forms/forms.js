@@ -3,15 +3,29 @@
 angular.module('myApp.forms', ['ngRoute'])
 
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/forms', {
+  $routeProvider.when('/forms/:entity/:id?', {
     templateUrl: 'forms/forms.html',
     controller: 'FormsCtrl'
   });
 }])
 
 .controller('FormsCtrl', 
-	['$scope','$http','reverseFilter',function($scope,$http,reverse) {
+	['$scope','$http','reverseFilter','$routeParams',
+  function($scope,$http,reverse,$routeParams) {
     $scope.master = {};
+    console.log($routeParams);
+
+ $scope.model = $routeParams['entity'] ? $routeParams['entity'] : '' ;
+ 
+ $scope.id = $routeParams['id'] ? $routeParams['id'] : 0;
+ 
+ $scope.action = $routeParams['action'] ? $routeParams['action'] : 'add';
+
+
+    $scope.startsWith = function (actual, expected) {
+        var lowerStr = (actual + "").toLowerCase();
+        return lowerStr.indexOf(expected.toLowerCase()) === 0;
+    }
 
     $scope.limit = 3;
     $scope.names = [

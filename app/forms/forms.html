@@ -6,6 +6,30 @@ Main jumbotron for a primary marketing message or call to action -->
     </div>
 
     <div class="container">
+
+    <div ng-switch="action" style="color:#395075">
+    <div ng-switch-when="add">
+      <h2>Showing Add Form for Model {{ model }}</h2>
+      <div ng-switch="model">
+        <div ng-switch-when="user">
+            Username <input type="text" placeholder="enter username">
+        </div>
+        <div ng-switch-when="contact">
+            Mobile <input type="text" placeholder="enter mobile">
+        </div>
+      </div>
+    </div>
+    <div ng-switch-when="edit">
+      <h2>Showing Edit Form for Model {{ model }} for instanceId : {{ id }}</h2>
+    </div>
+    <div ng-switch-when="remove">
+      <h2>Remove Instance of Model {{ model }} for instanceId : {{ id }}</h2>
+    </div>
+    <br><br>
+  </div>
+
+  <div style="margin-top:400px">
+  </div>
           <!-- <div>
           <form name="form" class="css-form" novalidate>
             Username:
@@ -93,7 +117,7 @@ Main jumbotron for a primary marketing message or call to action -->
   Limit: <input type="number" ng-model="limit"><br>
   Search: <input ng-model="searchTxt"><br>
   <ul>
-    <li ng-repeat="x in names | orderBy:sortBy:form.reverse == 'true' | limitTo:limit | filter:searchTxt">
+    <li ng-repeat="x in names | orderBy:sortBy:form.reverse == 'true' | limitTo:limit | filter:searchTxt:startsWith">
       {{ x.name + ', ' + x.location }}
     </li>
   </ul>
