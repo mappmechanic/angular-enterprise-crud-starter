@@ -1,0 +1,37 @@
+<div>
+  <form novalidate class="css-form">
+    Username: <input type="text" ng-model="user.name" required /><br />
+    E-mail: <input type="email" ng-model="user.email" required /><br />
+    Gender: <input type="radio" ng-model="user.gender" value="male" />male
+    <input type="radio" ng-model="user.gender" value="female" />female<br />
+    <input type="button" ng-click="reset()" value="Reset" />
+    <input type="submit" ng-click="update(user)" value="Save" />
+  </form>
+</div>
+
+<style type="text/css">
+  .css-form input.ng-invalid.ng-touched {
+    background-color: #FA787E;
+  }
+
+  .css-form input.ng-valid.ng-touched {
+    background-color: #78FA89;
+  }
+</style>
+
+<script>
+
+    .controller('FormsController', ['$scope', function($scope) {
+      $scope.master = {};
+
+      $scope.update = function(user) {
+        $scope.master = angular.copy(user);
+      };
+
+      $scope.reset = function() {
+        $scope.user = angular.copy($scope.master);
+      };
+
+      $scope.reset();
+    }]);
+</script>

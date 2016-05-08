@@ -1,0 +1,68 @@
+    <div>
+          <form name="form" class="css-form" novalidate>
+            Username:
+            <input type="text" ng-model="user.username" ng-model-options="{ updateOn: 'blur' }" name="uName" ng-minlength="10" ng-maxlength="15" required="" />
+            <br />
+            <div class="alert alert-danger" ng-show="(form.$submitted || form.uName.$touched) && form.uName.$invalid">
+              <div ng-show="form.uName.$error.required">Enter a new username.</div>
+              <div ng-show="form.uName.$error.minlength">Min length should be 10.</div>
+              <div ng-show="form.uName.$error.maxlength">Max length should be 15.</div>
+            </div>
+
+            E-mail:
+            <input type="email" ng-model="user.email" name="uEmail" required="" />
+            <br />
+            <div class="alert alert-danger" ng-show="(form.$submitted || form.uEmail.$touched) && form.uEmail.$invalid">
+              <span ng-show="form.uEmail.$error.required">Tell us your email.</span>
+              <span ng-show="form.uEmail.$error.email">This is not a valid email.</span>
+            </div>
+            <br>
+            Age: <input type="number" min="18" max="25" name="age" ng-model="user.age">
+            <div class="alert alert-danger" ng-show="(form.$submitted || form.age.$touched) && form.age.$invalid">
+              <span ng-show="form.age.$error.number">Enter valid number.</span>
+              <span ng-show="form.age.$error.min">Min age should be 18.</span>
+              <span ng-show="form.age.$error.max">Max age should be 25.</span>
+               <span ng-show="form.age.$error.pattern">Enter integer as age.</span>
+            </div>
+            <br>
+            Gender:
+            <input type="radio" ng-model="user.gender" value="male" />male
+            <input type="radio" ng-model="user.gender" value="female" />female
+            <br />
+            <input type="checkbox" ng-model="user.agree" name="userAgree" required="" />
+
+            I agree:
+            <input ng-show="user.agree" type="text" ng-model="user.agreeSign" required="" />
+            <br />
+            <div ng-show="form.$submitted || form.userAgree.$touched">
+              <div ng-show="!user.agree || !user.agreeSign">Please agree and sign.</div>
+            </div>
+
+            <input type="button" ng-click="reset(form)" value="Reset" />
+            <input type="submit" ng-click="update(user)" value="Save" />
+          </form>
+        </div>
+
+<script>
+
+.controller('FormsController', ['$scope', function($scope) {
+  $scope.master = {};
+
+  $scope.update = function(user) {
+    if($scope.form.$valid) {
+      $scope.master = angular.copy(user);
+    }
+  };
+
+  $scope.reset = function(form) {
+    if (form) {
+      form.$setPristine();
+      form.$setUntouched();
+    }
+    $scope.user = angular.copy({});
+    $scope.master = angular.copy({});
+  };
+
+  $scope.reset();
+}]);
+</script>

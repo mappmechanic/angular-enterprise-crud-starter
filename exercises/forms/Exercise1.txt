@@ -1,0 +1,56 @@
+<!-- CODE START -->
+    <div class="container">
+       <div style="height:100px">
+       </div>
+       <div>
+        <h1>Forms</h1>
+        <form novalidate class="simple-form">
+          Username: 
+          <input type="text" ng-model="user.username" /><br />
+
+          Email: 
+          <input type="email" ng-model="user.email" /><br />
+
+          Gender: 
+          <input type="radio" ng-model="user.gender" value="male" />male
+          <input type="radio" ng-model="user.gender" value="female" />female<br />
+
+          Type: <br>
+          <select ng-model="user.type">
+            <option value="">Select One</option>
+            <option value="Standard User">Standard User</option>
+            <option value="Admin User">Admin User</option>
+          </select>
+          <br>
+
+          Multiple Choice: 
+          <input type="checkbox" ng-model="user.choice[0]"> Choice 1 &nbsp;&nbsp;&nbsp;
+          <input type="checkbox" ng-model="user.choice[1]"> Choice 2
+          
+          <br><br>
+          <input type="button" ng-click="reset()" value="Reset" />
+          <input type="submit" ng-click="update(user)" value="Save" /> 
+        </form>
+        <pre>form = {{user | json}}</pre>
+        <pre>master = {{master | json}}</pre>
+      </div>
+     
+    </div> <!-- /container -->
+<!--CODE END -->
+
+<script>
+
+    .controller('FormsController', ['$scope', function($scope) {
+      $scope.master = {};
+
+      $scope.update = function(user) {
+        $scope.master = angular.copy(user);
+      };
+
+      $scope.reset = function() {
+        $scope.user = angular.copy($scope.master);
+      };
+
+      $scope.reset();
+    }]);
+</script>
