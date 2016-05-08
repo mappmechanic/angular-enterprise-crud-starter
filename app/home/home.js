@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp.home', ['ngRoute'])
+angular.module('myApp.home', ['ngRoute','ngSanitize'])
 
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/home', {
@@ -12,8 +12,16 @@ angular.module('myApp.home', ['ngRoute'])
 .controller('HomeCtrl', 
 	['$scope',function($scope) {
 
+  $scope.showSections = false;
 
-  $scope.welcomeMessage = "Welcome to our first Angular web application.";
+  $scope.$on('loginSuccessful',function(eventInfo,data) {
+    console.log('Login Successful');
+    $scope.welcomeMessage = "Welcome - "+data.userId;
+    $scope.showSections = true;
+    $scope.$emit('shownData');
+  });
+
+  $scope.welcomeMessage = "Welcome to our <b>first</b> Angular web application. <script>alert('hi')</script>";
     
     $scope.sectionsContent = [
         {

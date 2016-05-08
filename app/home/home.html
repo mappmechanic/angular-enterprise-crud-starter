@@ -2,14 +2,15 @@
     <div class="jumbotron">
       <div class="container">
         <h1>Hello, world!</h1>
-        <p>{{welcomeMessage}}</p>
+        <p ng-bind-html="welcomeMessage">
+        </p>
         <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
       </div>
     </div>
 
     <div class="container">
       <!-- Example row of columns -->
-      <div class="row">
+      <div ng-if="showSections" class="row">
         <div ng-repeat="section in sectionsContent" class="col-md-4">
           <h2>{{ section.name }}</h2>
           <p>{{ section.text }} </p>

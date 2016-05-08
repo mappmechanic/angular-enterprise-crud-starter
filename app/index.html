@@ -16,6 +16,11 @@
   <script src="/bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
 <body>
+  <div ng-if="pageLoading" class="loader-container">
+    <div class="loader">
+
+    </div>
+  </div>
   <!-- TEMPLATE CODE START -->
     <nav ng-controller="NavCtrl" class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
@@ -32,6 +37,7 @@
               <li ng-repeat="link in links" ng-class="{active:isActive(link.path)}"><a href="#{{link.path}}">{{link.display}}</a></li>
              
         </ul>
+        <button class="btn" ng-click="login()"> Login </button>
       </div>
     </nav>
     <div ng-view></div>
@@ -43,6 +49,7 @@
   -->
   <script src="/bower_components/angular/angular.js"></script>
   <script src="/bower_components/angular-route/angular-route.js"></script>
+  <script src="/bower_components/angular-sanitize/angular-sanitize.min.js"></script>
   <script src="app.js"></script>
   <script src="home/home.js"></script>
   <script src="contact/contact.js"></script>
